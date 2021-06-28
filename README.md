@@ -2,7 +2,7 @@
 
 ## Dump Local RoasTime Data to CSV
 
-Download the script dump-roasts.py to your system, and make it
+Download the script `dump-roasts.py` to your system, and make it
 executable:
 
     chmod +x dump-roasts.py
