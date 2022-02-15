@@ -1,0 +1,9 @@
+pandas
+scipy
+scikit-learn
+imbalanced-learn
+statsmodels
+matplotlib
+seaborn
+jupyter
+jupyterlab

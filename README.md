@@ -2,40 +2,24 @@
 
 ## Dump Local RoasTime Data to CSV
 
-Download the script `dump-roasts.py` to your system, and make it
+Download the script `dump_roasts.py` to your system, and make it
 executable:
 
-    chmod +x dump-roasts.py
+    chmod +x dump_roasts.py
 
 Dump default roast fields to a CSV file:
 
-    ./dump-roasts.py roasts.csv
+    ./dump_roasts.py roasts.csv
 
 Dump user-specified roast fields:
 
-    ./dump-roasts.py -f date,time,ambient,humidity roasts.csv
+    ./dump_roasts.py -f date,time,ambient,humidity roasts.csv
 
 Get help:
 
-```
-./dump-roasts.py -h
-usage: dump-roasts.py [-h] [-f FIELDS] PATH
+    ./dump_roasts.py -h
 
-Convert RoasTime roast data to CSV.
+## Jupyter Notebook
 
-positional arguments:
-  PATH                  CSV file name
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -f FIELDS, --fields FIELDS
-                        comma-separated list of fields (default is
-                        date,time,beanId,weightGreen)
-
-Valid field names are: dateTime, uid, roastNumber, roastName, beanId, rating,
-serialNumber, firmware, hardware, ambient, humidity, weightGreen,
-weightRoasted, preheatTemperature, beanChargeTemperature, beanDropTemperature,
-drumChargeTemperature, drumDropTemperature, totalRoastTime, sampleRate,
-roastStartIndex, indexYellowingStart, indexFirstCrackStart,
-indexFirstCrackEnd, indexSecondCrackStart, indexSecondCrackEnd, roastEndIndex
-```
+    ./install-env coffee-env
+    jupyter lab &
