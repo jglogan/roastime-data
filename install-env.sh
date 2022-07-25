@@ -3,7 +3,7 @@
 #
 #  Set up a Python virtual environment using pip-tools.
 #
-venv_name="${1:-gneiss-env}"
+venv_name="${1:-venv}"
 
 #
 #  Create the virtual environment and activate it.
