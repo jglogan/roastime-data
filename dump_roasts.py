@@ -8,13 +8,6 @@ import os
 import sys
 
 #
-#  TODO:
-#  - Windows compatibility
-#  - Linux compatibility
-#  - 
-#
-
-#
 #  Roastime control codes.
 #
 codes_by_control = {
@@ -259,7 +252,15 @@ def main():
     parser.add_argument('-f', '--fields', help=f'comma-separated list of fields (default is {",".join(default_fields)})')
     parser.add_argument('output_file', metavar='PATH', help='CSV file name (default is stdout)', nargs='?')
 
-    roast_path = os.path.join(os.path.expanduser("~"), "Library/Application Support/roast-time/roasts")
+    if sys.platform.startswith('linux'):
+        raise NotImplementedError('FIXME: need Linux roast-time path')
+    elif sys.platform == 'darwin':
+        roast_path = os.path.join(os.path.expanduser("~"), 'Library', 'Application Support', 'roast-time', 'roasts')
+    elif sys.platform == 'win32':
+        roast_path = os.path.join(os.path.expanduser("~"), 'AppData', 'Roaming', 'roast-time', 'roasts')
+    else:
+        raise NotImplementedError(f'platform {sys.platform} is not supported')
+
     args = parser.parse_args()
     roasts = load_roasts(roast_path)
     fields = default_fields if args.fields is None else args.fields.split(",")
