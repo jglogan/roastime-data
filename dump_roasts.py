@@ -253,22 +253,23 @@ def main():
     parser.add_argument('output_file', metavar='PATH', help='CSV file name (default is stdout)', nargs='?')
 
     if sys.platform.startswith('linux'):
-        raise NotImplementedError('FIXME: need Linux roast-time path')
+        config_path = os.environ.get('XDG_CONFIG_HOME', os.path.join(os.path.expanduser('~'), '.config'))
     elif sys.platform == 'darwin':
-        roast_path = os.path.join(os.path.expanduser("~"), 'Library', 'Application Support', 'roast-time', 'roasts')
-    elif sys.platform == 'win32':
-        roast_path = os.path.join(os.path.expanduser("~"), 'AppData', 'Roaming', 'roast-time', 'roasts')
+        config_path = os.path.join(os.path.expanduser('~'), 'Library', 'Application Support')
+    elif sys.platform in ['win32', 'cygwin']:
+        config_path = os.path.join(os.path.expanduser('~'), 'AppData', 'Roaming')
     else:
         raise NotImplementedError(f'platform {sys.platform} is not supported')
 
     args = parser.parse_args()
+    roast_path = os.path.join(config_path, 'roast-time', 'roasts')
     roasts = load_roasts(roast_path)
-    fields = default_fields if args.fields is None else args.fields.split(",")
+    fields = default_fields if args.fields is None else args.fields.split(',')
     file_id = sys.stdout.fileno() if args.output_file is None else args.output_file
     with open(file_id, 'w', newline='') as csv_file:
         write_roasts(csv_file, roasts, fields)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     rv = main()
     sys.exit(rv)
