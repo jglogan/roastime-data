@@ -34,16 +34,17 @@ def make_get_sample(index_field):
 
     def get_sample(roast_json, source_field):
         try:
-            index = roast_json[index_field]
+            index = min(roast_json[index_field], len(roast_json[source_field]) - 1)
             return roast_json[source_field][index]
         except:
+            raise
             sys.stderr.write(f'failed to get sample {source_field} using index field {index_field}\n')
             return None
 
     return get_sample
 
 
-def make_get_control(index_field, control):
+def make_get_control(control):
     '''
     Get a control value at an index.
     '''
@@ -51,7 +52,7 @@ def make_get_control(index_field, control):
     control_code = codes_by_control[control]
     def get_control(roast_json, source_field):
         current_value = None
-        index_value = roast_json[index_field]
+        index_value = roast_json[source_field]
 
         try:
             action_times = roast_json['actions']['actionTimeList']
@@ -70,7 +71,7 @@ def make_get_control(index_field, control):
             sys.stderr.write(f'index value {index_value} not within control range\n')
             return None
         except:
-            sys.stderr.write(f'failed to get control {control} using index field {index_field}\n')
+            sys.stderr.write(f'failed to get control {control} using index field {source_field}\n')
             raise
             return None
 
@@ -161,6 +162,12 @@ def get_event_field(event_name, prepend, field):
 #
 #  Add computed event fields.
 #
+roast_sample_fields = [
+    'beanDerivative',
+    'beanTemperature',
+    'drumTemperature',
+]
+
 for event_name, prepend in events:
     #
     #  Fields for event times.
@@ -175,7 +182,15 @@ for event_name, prepend in events:
     for control in codes_by_control.keys():
         source_field = get_event_field(event_name, prepend, 'index')
         destination_field = get_event_field(event_name, prepend, control)
-        roast_fields.append({'fields': [source_field], 'mapped_field': (destination_field, make_get_control(source_field, control)) })
+        roast_fields.append({'fields': [source_field], 'mapped_field': (destination_field, make_get_control(control)) })
+
+    #
+    #  Fields for event sample values.
+    #
+    for roast_sample_field in roast_sample_fields:
+        source_field = get_event_field(event_name, prepend, 'index')
+        destination_field = get_event_field(event_name, prepend, roast_sample_field)
+        roast_fields.append({'fields': [roast_sample_field], 'mapped_field': (destination_field, make_get_sample(source_field)) })
 
 
 def set_roast_column(roast_json, roast_columns, roast_field):
