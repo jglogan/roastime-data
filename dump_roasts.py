@@ -16,6 +16,18 @@ codes_by_control = {
     'drum': 2,
 }
 
+controls_by_code = {v:k for k,v in codes_by_control.items()}
+
+
+#
+#  Roast fields for sample arrays.
+#
+roast_sample_fields = [
+    'beanDerivative',
+    'beanTemperature',
+    'drumTemperature',
+]
+
 
 #
 #  Functions for computing event fields.
@@ -155,12 +167,6 @@ def get_event_field(event_name, prepend, field):
 #
 #  Add computed event fields.
 #
-roast_sample_fields = [
-    'beanDerivative',
-    'beanTemperature',
-    'drumTemperature',
-]
-
 for event_name, prepend in events:
     #
     #  Fields for event times.

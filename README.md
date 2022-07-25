@@ -22,4 +22,5 @@ Get help:
 ## Jupyter Notebook
 
     ./install-env coffee-env
+    . coffee-env/bin/activate
     jupyter lab &
