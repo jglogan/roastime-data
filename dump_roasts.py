@@ -220,7 +220,11 @@ def set_roast_column(roast_json, roast_columns, roast_field):
 def create_roast(roast_json):
     roast = {}
     for roast_field in roast_fields:
-        set_roast_column(roast_json, roast, roast_field)
+        try:
+            set_roast_column(roast_json, roast, roast_field)
+        except:
+            sys.stderr.write(f'an exception occurred while processing field {roast_field}')
+            raise
 
     return roast
 
