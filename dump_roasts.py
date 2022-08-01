@@ -89,7 +89,8 @@ def make_conversion(conversion_type):
     '''
 
     def conversion(roast_json, source_field):
-        return conversion_type(roast_json[source_field])
+        value = roast_json[source_field]
+        return None if value is None else conversion_type(value)
 
     return conversion
 
